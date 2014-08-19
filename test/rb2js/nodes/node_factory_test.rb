@@ -57,6 +57,10 @@ module Rb2js
                                                              [:stmts_add, [:stmts_new], [:void_stmt]]])
       end
 
+      def test_it_creates_call_node
+        assert_kind_of CallNode, NodeFactory.make_node([:call, []])
+      end
+
       def test_it_creates_class_node
         assert_kind_of ClassNode, NodeFactory.make_node([:class, [:const_ref, [:@const, "C"]], nil, [:bodystmt, [:stmts_add, [:stmts_new], [:void_stmt]], nil, nil, nil]])
       end

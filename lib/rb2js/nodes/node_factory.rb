@@ -27,6 +27,8 @@ module Rb2js
           BodystmtNode
         when :brace_block
           BraceBlockNode
+        when :call
+          CallNode
         when :class
           ClassNode
         when :@const
