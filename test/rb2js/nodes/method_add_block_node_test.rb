@@ -17,7 +17,7 @@ module Rb2js
                    [:params, [[:@ident, "x", [1, 10]]], nil, nil, nil, nil],
                    nil],
                   [:stmts_add, [:stmts_new], [:@int, "1", [1, 13]]]]]
-        assert_equal "var _foo_block = function(){\nvar x = arguments[0];\nreturn(1);\n};\nfoo(1)", MethodAddBlockNode.new(sexp).make_code
+        assert_equal "foo._block = function(){\nvar x = arguments[0];\nreturn 1;\n};\nfoo(1)", MethodAddBlockNode.new(sexp).make_code
       end
 
       def test_it_compiles_brace_block_into_function_call_with_anonymous_function_with_multiple_arguments
@@ -39,7 +39,7 @@ module Rb2js
                     nil],
                    nil],
                   [:stmts_add, [:stmts_new], [:@int, "1", [1, 15]]]]]
-        assert_equal "var _foo_block = function(){\nvar y = arguments[0];\nvar z = arguments[1];\nreturn(1);\n};\nfoo(1)", MethodAddBlockNode.new(sexp).make_code
+        assert_equal "foo._block = function(){\nvar y = arguments[0];\nvar z = arguments[1];\nreturn 1;\n};\nfoo(1)", MethodAddBlockNode.new(sexp).make_code
       end
 
       def test_it_compiles_do_block_into_function_call_with_anonymous_function_with_one_argument
@@ -56,7 +56,7 @@ module Rb2js
                    [:params, [[:@ident, "x", [1, 10]]], nil, nil, nil, nil],
                    nil],
                   [:stmts_add, [:stmts_new], [:@int, "1", [1, 13]]]]]
-        assert_equal "var _foo_block = function(){\nvar x = arguments[0];\nreturn(1);\n};\nfoo(1)", MethodAddBlockNode.new(sexp).make_code
+        assert_equal "foo._block = function(){\nvar x = arguments[0];\nreturn 1;\n};\nfoo(1)", MethodAddBlockNode.new(sexp).make_code
       end
 
       def test_it_compiles_do_block_into_function_call_with_anonymous_function_with_multiple_arguments
@@ -78,7 +78,7 @@ module Rb2js
                     nil],
                    nil],
                   [:stmts_add, [:stmts_new], [:@int, "1", [1, 15]]]]]
-        assert_equal "var _foo_block = function(){\nvar y = arguments[0];\nvar z = arguments[1];\nreturn(1);\n};\nfoo(1)", MethodAddBlockNode.new(sexp).make_code
+        assert_equal "foo._block = function(){\nvar y = arguments[0];\nvar z = arguments[1];\nreturn 1;\n};\nfoo(1)", MethodAddBlockNode.new(sexp).make_code
       end
     end
   end

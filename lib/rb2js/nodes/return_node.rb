@@ -7,8 +7,9 @@ module Rb2js
       end
 
       def make_code
-        code = "return"
-        code << wrap_with_parenthesis(@return_value.make_code)
+        code = "return "
+        code << @return_value.make_code
+        code << ";\n"
       end
     end
   end

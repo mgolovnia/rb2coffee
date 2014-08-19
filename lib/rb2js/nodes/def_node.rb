@@ -1,22 +1,21 @@
 module Rb2js
   module Nodes
     class DefNode < Node
-      attr_reader :name
+      attr_reader :name, :full_name
       def after_initialize(sexp)
         @name = NodeFactory.make_node(sexp[1], self)
-        @params = NodeFactory.make_node(sexp[2], self, @context.merge({ fname: @name }) )
+        @params = NodeFactory.make_node(sexp[2], self, @context.merge({ function: self }) )
         @params_node = @params.find_node_by { |child| child.is_a?(ParamsNode) }
         @rest_param = @params.find_node_by { |child| child.is_a?(RestParamNode) }
-        @body = NodeFactory.make_node(sexp[3], self, @context.merge({ params: @params_node, fname: @name  }))
+        @body = NodeFactory.make_node(sexp[3], self, @context.merge({ params: @params_node, function: self  }))
         @children = [@name, @params, @body]
-
       end
 
       def make_code
         code = ''
-        if @context[:class] && @name.make_code == 'initialize'
+        if is_constructor?
           code << make_constructor
-        elsif @context[:class]
+        elsif is_instance_method?
           code << make_method
         else
           code << make_function
@@ -42,8 +41,27 @@ module Rb2js
           param_value = param_value.make_code
           params_declarations << "#{param_name} = typeof #{param_name} !== 'undefined' ? #{param_name} : #{param_value};\n"
         end
+
         code << @body.make_code(params_declarations)
         code
+      end
+
+      def make_code_with_return
+        code = make_code
+        code << ";\n"
+        code << "return #{@name.make_code};\n"
+      end
+
+      def full_name
+        is_instance_method? ? "#{@context[:class].name.make_code}.prototype.#{@name.make_code}" : @name.make_code
+      end
+
+      def is_constructor?
+        @context[:class] && @name.make_code == 'initialize'
+      end
+
+      def is_instance_method?
+        @context[:class] && !@context[:function]
       end
 
       private

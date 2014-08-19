@@ -11,7 +11,7 @@ module Rb2js
                  [:@ident, "foo", [1, 4]],
                  [:params, nil, nil, nil, nil, nil],
                  [:bodystmt, [:stmts_add, [:stmts_new], [:void_stmt]], nil, nil, nil]]
-        assert_equal "foo = function(){\nreturn();\n}", DefNode.new(sexp).make_code
+        assert_equal "foo = function(){\nreturn;\n}", DefNode.new(sexp).make_code
       end
 
       def test_it_compiles_from_function_without_params
@@ -21,7 +21,7 @@ module Rb2js
                  [:@ident, "foo", [1, 4]],
                  [:paren, [:params, nil, nil, nil, nil, nil]],
                  [:bodystmt, [:stmts_add, [:stmts_new], [:void_stmt]], nil, nil, nil]]
-        assert_equal "foo = function(){\nreturn();\n}", DefNode.new(sexp).make_code
+        assert_equal "foo = function(){\nreturn;\n}", DefNode.new(sexp).make_code
       end
 
       def test_it_compiles_from_function_with_params
@@ -31,7 +31,7 @@ module Rb2js
                  [:@ident, "foo", [1, 4]],
                  [:paren, [:params, [[:@ident, "x", [1, 8]], [:@ident, "y", [1, 10]]], nil, nil, nil, nil]],
                  [:bodystmt, [:stmts_add, [:stmts_new], [:void_stmt]], nil, nil, nil]]
-        assert_equal "foo = function(x, y){\nreturn();\n}", DefNode.new(sexp).make_code
+        assert_equal "foo = function(x, y){\nreturn;\n}", DefNode.new(sexp).make_code
       end
 
       def test_it_compiles_into_function_that_returns_result_of_last_computation
@@ -45,7 +45,7 @@ module Rb2js
                   [:stmts_add,
                    [:stmts_new],
                    [:binary, [:@int, "1", [2, 0]], :+, [:@int, "2", [2, 2]]]],nil,nil,nil]]
-        assert_equal "foo = function(){\nreturn(1 + 2);\n}", DefNode.new(sexp).make_code
+        assert_equal "foo = function(){\nreturn 1 + 2;\n}", DefNode.new(sexp).make_code
       end
 
       def test_it_compiles_from_function_with_multiplle_istructions_into_function_that_returns_result_of_last_computation
@@ -65,7 +65,7 @@ module Rb2js
                   nil,
                   nil,
                   nil]]
-        assert_equal "foo = function(){\n3 + 4;\nreturn(1 + 2);\n}", DefNode.new(sexp).make_code
+        assert_equal "foo = function(){\n3 + 4;\nreturn 1 + 2;\n}", DefNode.new(sexp).make_code
       end
 
       def test_it_compiles_function_with_explicit_return
@@ -90,7 +90,7 @@ module Rb2js
                   nil,
                   nil,
                   nil]]
-        assert_equal "foo = function(){\n3 + 4;\nreturn(1);\n}", DefNode.new(sexp).make_code
+        assert_equal "foo = function(){\n3 + 4;\nreturn (1);\n}", DefNode.new(sexp).make_code
       end
 
       def test_it_compiles_function_with_multiple_explicit_returns
@@ -123,7 +123,7 @@ module Rb2js
                   nil,
                   nil,
                   nil]]
-        assert_equal "foo = function(){\nreturn(2);\n3 + 4;\nreturn(1);\n}", DefNode.new(sexp).make_code
+        assert_equal "foo = function(){\nreturn (2);\n3 + 4;\nreturn (1);\n}", DefNode.new(sexp).make_code
       end
 
       def test_it_compiles_function_with_optional_arguments
@@ -133,7 +133,7 @@ module Rb2js
                  [:@ident, "foo", [1, 6]],
                  [:params, nil, nil, [:rest_param, [:@ident, "args", [1, 11]]], nil, nil],
                  [:bodystmt, [:stmts_add, [:stmts_new], [:void_stmt]], nil, nil, nil]]
-        assert_equal "foo = function(){\nvar args;\nargs = 1 <= arguments.length ? Array.prototype.slice.call(arguments, 0) : [];\nreturn();\n}", DefNode.new(sexp).make_code
+        assert_equal "foo = function(){\nvar args;\nargs = 1 <= arguments.length ? Array.prototype.slice.call(arguments, 0) : [];\nreturn;\n}", DefNode.new(sexp).make_code
       end
 
       def test_it_compiles_function_with_required_and_optional_arguments
@@ -149,7 +149,7 @@ module Rb2js
                    nil,
                    nil]],
                  [:bodystmt, [:stmts_add, [:stmts_new], [:void_stmt]], nil, nil, nil]]
-        assert_equal "foo = function(){\nvar x, args;\nx = arguments[0];\nargs = 2 <= arguments.length ? Array.prototype.slice.call(arguments, 1) : [];\nreturn();\n}", DefNode.new(sexp).make_code
+        assert_equal "foo = function(){\nvar x, args;\nx = arguments[0];\nargs = 2 <= arguments.length ? Array.prototype.slice.call(arguments, 1) : [];\nreturn;\n}", DefNode.new(sexp).make_code
       end
 
       def test_it_compiles_function_with_required_optional_and_arguments_with_default_values
@@ -171,7 +171,7 @@ module Rb2js
                   "y = arguments[1];\n" \
                   "args = 3 <= arguments.length ? Array.prototype.slice.call(arguments, 2) : [];\n" \
                   "y = typeof y !== 'undefined' ? y : 1;\n" \
-                  "return();\n" \
+                  "return;\n" \
                 "}"
         assert_equal code, DefNode.new(sexp).make_code
       end
@@ -193,7 +193,7 @@ module Rb2js
         code = "foo = function(){\n" \
                   "var args;\n" \
                   "args = 1 <= arguments.length ? Array.prototype.slice.call(arguments, 0) : [];\n" \
-                  "return(_foo_block());\n" \
+                  "return foo._block();\n" \
                 "}"
         assert_equal code, DefNode.new(sexp).make_code
       end
@@ -215,7 +215,7 @@ module Rb2js
         code = "foo = function(){\n" \
                   "var args;\n" \
                   "args = 1 <= arguments.length ? Array.prototype.slice.call(arguments, 0) : [];\n" \
-                  "return(_foo_block());\n" \
+                  "return foo._block();\n" \
                 "}"
         assert_equal code, DefNode.new(sexp).make_code
       end
@@ -244,7 +244,7 @@ module Rb2js
                   nil,
                   nil]]
         code = "foo = function(){\n" \
-                  "return(_foo_block(1, 2, 3));\n" \
+                  "return foo._block(1, 2, 3);\n" \
                 "}"
         assert_equal code, DefNode.new(sexp).make_code
       end
@@ -280,8 +280,8 @@ module Rb2js
                   "var args;\n" \
                   "args = 1 <= arguments.length ? Array.prototype.slice.call(arguments, 0) : [];\n" \
                   "var y;\n" \
-                  "y = _foo_block();\n"\
-                  "return(y);\n" \
+                  "y = foo._block();\n"\
+                  "return y;\n" \
                 "}"
         assert_equal code, DefNode.new(sexp).make_code
       end
@@ -300,7 +300,7 @@ module Rb2js
                   nil,
                   nil]]
         code = "foo = function(){\n" \
-                  "return(_foo_block);\n" \
+                  "return foo._block;\n" \
                 "}"
         assert_equal code, DefNode.new(sexp).make_code
       end

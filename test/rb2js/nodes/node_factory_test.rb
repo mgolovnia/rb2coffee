@@ -112,7 +112,7 @@ module Rb2js
       end
 
       def test_it_creates__program_node
-        assert_kind_of ProgramNode, NodeFactory.make_node([:program, []])
+        assert_kind_of ProgramNode, NodeFactory.make_node([:program, [], nil, nil, nil])
       end
 
       def test_it_creates_return_node

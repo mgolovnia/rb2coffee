@@ -5,7 +5,7 @@ module Rb2js
       end
 
       def make_code
-        "_#{@context[:fname].make_code}_block()"
+        "#{@context[:function].name.make_code}._block()"
       end
     end
   end

@@ -6,7 +6,7 @@ module Rb2js
       end
 
       def make_code
-        code = "_#{@context[:fname].make_code}_block"
+        code = "#{@context[:function].full_name}._block"
         code << wrap_with_parenthesis(@arguments.make_code)
       end
     end

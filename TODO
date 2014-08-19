@@ -1,6 +1,5 @@
 * classes
-  * inheritance
-  * instance methods/variables
+  * super
   * class methods/variables
 * modules
   * include
@@ -8,7 +7,6 @@
 * method calls
 * strings
 * destructured assignment
-* desctructured assignment of block arguments
 * logical operators
 * if, case, unless...
 * symbols

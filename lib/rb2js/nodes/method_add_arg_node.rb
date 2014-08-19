@@ -4,8 +4,8 @@ module Rb2js
     class MethodAddArgNode < Node
       attr_reader :function_name
       def after_initialize(sexp)
-        @function_name = NodeFactory.make_node(sexp[1], self)
-        @arguments = NodeFactory.make_node(sexp[2], self)
+        @function_name = NodeFactory.make_node(sexp[1], self, @context)
+        @arguments = NodeFactory.make_node(sexp[2], self, @context)
         @children = [@function_name, @arguments]
       end
 

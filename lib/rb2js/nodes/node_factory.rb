@@ -74,7 +74,7 @@ module Rb2js
         when :yield
           YieldNode
         else
-          raise UnknownNodeError
+          raise UnknownNodeError, sexp[1]
         end
         klass.new(sexp, parent, context)
       end

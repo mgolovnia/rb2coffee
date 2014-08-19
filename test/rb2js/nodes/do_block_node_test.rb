@@ -17,7 +17,7 @@ module Rb2js
                 [:stmts_add,
                  [:stmts_add, [:stmts_new], [:@int, "1", [1, 15]]],
                  [:@int, "2", [1, 18]]]]
-        assert_equal "function(){\nvar y = arguments[0];\nvar z = arguments[1];\n1;\nreturn(2);\n}", DoBlockNode.new(sexp).make_code
+        assert_equal "function(){\nvar y = arguments[0];\nvar z = arguments[1];\n1;\nreturn 2;\n}", DoBlockNode.new(sexp).make_code
       end
 
       def test_it_compiles_do_block_with_explicit_return
@@ -39,7 +39,7 @@ module Rb2js
                     [:args_new],
                     [:paren, [:stmts_add, [:stmts_new], [:@int, "2", [1, 25]]]]],
                    false]]]]
-        assert_equal "function(){\nvar y = arguments[0];\nvar z = arguments[1];\n1;\nreturn(2);\n}", DoBlockNode.new(sexp).make_code
+        assert_equal "function(){\nvar y = arguments[0];\nvar z = arguments[1];\n1;\nreturn (2);\n}", DoBlockNode.new(sexp).make_code
       end
     end
   end

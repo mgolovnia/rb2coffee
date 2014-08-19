@@ -6,7 +6,7 @@ module Rb2js
       def test_it_compiles_empty_body
         # def foo(); end;
         sexp = [:bodystmt, [:stmts_add, [:stmts_new], [:void_stmt]], nil, nil, nil]
-        assert_equal "{\nreturn();\n}", BodystmtNode.new(sexp).make_code
+        assert_equal "{\nreturn;\n}", BodystmtNode.new(sexp).make_code
       end
 
       def test_it_computes_last_computed_value_of_bodystmt_with_one_statement
@@ -31,7 +31,7 @@ module Rb2js
                   [:stmts_add, [:stmts_new], [:void_stmt]],
                   [:binary, [:@int, "1", [1, 11]], :+, [:@int, "2", [1, 13]]]],
                  [:binary, [:@int, "1", [1, 16]], :+, [:@int, "4", [1, 18]]]], nil, nil, nil]
-        assert_equal "{\n1 + 2;\nreturn(1 + 4);\n}", BodystmtNode.new(sexp).make_code
+        assert_equal "{\n1 + 2;\nreturn 1 + 4;\n}", BodystmtNode.new(sexp).make_code
       end
 
       def test_it_creates_variables_declarations
@@ -51,7 +51,7 @@ module Rb2js
         assert_equal "{\n" \
                      "var x, y;\n" \
                      "x = 1;\n" \
-                     "return(y = 2);\n" \
+                     "return y = 2;\n" \
                      "}", BodystmtNode.new(sexp).make_code
       end
 
@@ -76,7 +76,8 @@ module Rb2js
         assert_equal "{\n" \
                      "var x, bar;\n" \
                      "x = 1;\n" \
-                     "bar = function(){\nreturn();\n};\n}", BodystmtNode.new(sexp).make_code
+                     "bar = function(){\nreturn;\n};\n"\
+                     "return bar;\n}", BodystmtNode.new(sexp).make_code
       end
     end
   end

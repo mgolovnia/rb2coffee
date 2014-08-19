@@ -3,6 +3,7 @@ module Rb2js
     class Node
       include Helpers
       attr_reader :parent, :children
+
       def initialize(sexp, parent = nil, context = {})
         @parent = parent
         @children = []
@@ -18,6 +19,12 @@ module Rb2js
 
       def make_code
         raise NotImplementedError
+      end
+
+      def make_code_with_return
+        code = make_code
+        code = " #{make_code}" if code.size > 0
+        "return#{code};\n"
       end
 
       def find_node_by(&block)
@@ -38,18 +45,6 @@ module Rb2js
         return res
       end
 
-      def find_hoistable_declarations(res = [])
-        return (res << self) if is_a?(DefNode) || (is_a?(VarFieldNode) && type == :ident ) || is_a?(ClassNode)
-        @children.compact.each do |child|
-          result = child.find_hoistable_declarations(res)
-          res + result if result
-        end
-        return res
-      end
-
-      def sub_node_with(node, &block)
-
-      end
     end
   end
 end

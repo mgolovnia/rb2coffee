@@ -6,7 +6,7 @@ module Rb2js
       end
 
       def make_code
-        "this.#{@name.gsub('@','')}"
+        @name.gsub('@', 'this.')
       end
     end
   end
