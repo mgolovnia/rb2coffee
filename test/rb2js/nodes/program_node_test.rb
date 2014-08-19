@@ -35,7 +35,7 @@ module Rb2js
                     [:args_add_block,
                      [:args_add, [:args_new], [:var_ref, [:@ident, "x", [6, 6]]]],
                      false]]]]]
-        assert_equal "var foo, x;\nfoo = function(x){\nreturn x * 2;\n};\nx = 2;\nfoo(x);\n", ProgramNode.new(sexp).make_code
+        assert_equal "(function(){\nvar foo, x;\nfoo = function(x){\nreturn x * 2;\n};\nx = 2;\nfoo(x);\n})();", ProgramNode.new(sexp).make_code
       end
 
       def test_it_does_not_hoist_variable_declarations_from_functions
@@ -73,7 +73,7 @@ module Rb2js
                     [:args_add_block,
                      [:args_add, [:args_new], [:var_ref, [:@ident, "x", [7, 6]]]],
                      false]]]]]
-          assert_equal "var foo, x;\nfoo = function(x){\nvar y;\ny = 2;\nreturn x * y;\n};\nx = 2;\nfoo(x);\n", ProgramNode.new(sexp).make_code
+          assert_equal "(function(){\nvar foo, x;\nfoo = function(x){\nvar y;\ny = 2;\nreturn x * y;\n};\nx = 2;\nfoo(x);\n})();", ProgramNode.new(sexp).make_code
       end
 
     end

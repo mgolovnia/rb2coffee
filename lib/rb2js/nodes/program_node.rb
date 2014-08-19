@@ -10,12 +10,13 @@ module Rb2js
       end
 
       def make_code(external_declarations = "")
-        code = ''
+        code = "(function(){\n"
         body_code = @body.make_code
         code << "var #{@hoistable_declarations.join(', ')};\n" if @hoistable_declarations.any?
         unless body_code.empty?
           code << body_code
         end
+        code << "})();"
         code
       end
 

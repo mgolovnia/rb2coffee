@@ -6,11 +6,11 @@
   * extend
 * method calls
 * strings
-* destructured assignment
 * logical operators
 * if, case, unless...
 * symbols
 * exceptions
 * standard library
+* destructured assignment
 * ...
 
