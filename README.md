@@ -1,2 +1,2 @@
-rb2js
+rb2coffee
 =====
